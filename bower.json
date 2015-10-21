@@ -4,7 +4,8 @@
   "dependencies": {
     "bootstrap-sass": "~3.3.5",
     "modernizr": "~2.8.1",
-    "dcjs": "dc.js#~1.7.4"
+    "dcjs": "dc.js#~1.7.4",
+    "lodash": "~3.10.1"
   },
   "overrides": {
     "bootstrap-sass": {
