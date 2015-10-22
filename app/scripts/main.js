@@ -9,6 +9,8 @@ console.log('\'Allo \'Allo!');
 (function() {
   'use strict';
 
+  readCrossfilterData(makePlots);
+
   function makePlots(data) {
     //var all = data.groupAll();
 
@@ -25,7 +27,7 @@ console.log('\'Allo \'Allo!');
     var dayDimension = data.dimension(function(d) {
       var dayInWeek = [
         'Sunday', 'Monday', 'Tuesday', 'Wednesday',
-        'Thursday', 'Friday', 'Saturday'
+        'Thursday', 'Friday', 'Saturday',
       ];
       return d.day + '.' + dayInWeek[d.day];
     });
@@ -117,7 +119,7 @@ console.log('\'Allo \'Allo!');
         day: date.getDay(),
         hour: date.getHours(),
         year: date.getFullYear(),
-        month: date.getMonth()
+        month: date.getMonth(),
       };
     };
 
@@ -139,6 +141,4 @@ console.log('\'Allo \'Allo!');
         'email.sentOn', '%Y-%m-%dT%H:%M:%S.%LZ')));
     });
   }
-
-  readCrossfilterData(makePlots);
 })();
