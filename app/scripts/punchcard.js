@@ -1,8 +1,11 @@
-import _ from 'lodash';
-import d3 from 'd3';
-import D3punchcard from 'd3.punchcard';
+// import _ from 'lodash';
+// import d3 from 'd3';
+// import D3punchcard from 'd3.punchcard';
+/*global _, d3, D3punchcard*/
 
 (function() {
+  'use strict';
+
   function filterData(data, key, timeFormat) {
     var emailPred = function(item) {
       return _.includes(item._source.exists, key);

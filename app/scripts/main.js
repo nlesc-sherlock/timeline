@@ -1,12 +1,13 @@
-import _ from 'lodash';
-import dc from 'dc';
-import d3 from 'd3';
-import crossfilter from 'crossfilter';
+// import _ from 'lodash';
+// import dc from 'dc';
+// import d3 from 'd3';
+// import crossfilter from 'crossfilter';
+/*global _, dc, d3, crossfilter*/
 
 console.log('\'Allo \'Allo!');
 
 (function() {
-  //'use strict';
+  'use strict';
 
   function makePlots(data) {
     //var all = data.groupAll();

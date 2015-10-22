@@ -2,36 +2,40 @@
 /*eslint no-unused-vars: [2, { "args": "none" }]*/
 /*global define*/
 
-(function (global) { function moduleDefinition(d3) {
+(function (global) {
+  'use strict';
 
-function D3punchcard(options) {
+  function moduleDefinition(d3) {
 
-  // Reverse the data as we draw
-  // from the bottom up.
-  this.data = options.data.reverse();
-  this.element = options.element;
 
-  // Find the max value to normalize the size of the circles.
-  this.max = d3.max(this.data, function(array) {
+  function D3punchcard(options) {
 
-    // we ignore the first element as it is metadata
-    return d3.max(array.slice(1), function ( obj ) {
+    // Reverse the data as we draw
+    // from the bottom up.
+    this.data = options.data.reverse();
+    this.element = options.element;
 
-      // and we only return the interger verion of the value, not the key
-      return parseFloat( obj.value );
+    // Find the max value to normalize the size of the circles.
+    this.max = d3.max(this.data, function(array) {
+
+      // we ignore the first element as it is metadata
+      return d3.max(array.slice(1), function ( obj ) {
+
+        // and we only return the interger verion of the value, not the key
+        return parseFloat( obj.value );
+      });
     });
-  });
 
-  // set the upperlimit if we have it
-  // otherwise use the max
-  if( options.upperLimit ){
-    this.upperLimit = options.upperLimit;
-  } else {
-    this.upperLimit = this.max;
+    // set the upperlimit if we have it
+    // otherwise use the max
+    if( options.upperLimit ){
+      this.upperLimit = options.upperLimit;
+    } else {
+      this.upperLimit = this.max;
+    }
+
+    return this;
   }
-
-  return this;
-}
 
 D3punchcard.prototype.draw = function( options ){
 
