@@ -1,8 +1,10 @@
 /*! D3punchcard v0.1.0 - MIT license */
+/*eslint no-unused-vars: [2, { "args": "none" }]*/
+/*global define*/
 
-;(function (global) { function moduleDefinition( d3 ) {
+(function (global) { function moduleDefinition(d3) {
 
-function D3punchcard( options ) {
+function D3punchcard(options) {
 
   // Reverse the data as we draw
   // from the bottom up.
@@ -10,7 +12,7 @@ function D3punchcard( options ) {
   this.element = options.element;
 
   // Find the max value to normalize the size of the circles.
-  this.max = d3.max( this.data , function(array) {
+  this.max = d3.max(this.data, function(array) {
 
     // we ignore the first element as it is metadata
     return d3.max(array.slice(1), function ( obj ) {
@@ -33,14 +35,13 @@ function D3punchcard( options ) {
 
 D3punchcard.prototype.draw = function( options ){
 
-  var _this = this,
-      margin = 10,
+  var margin = 10,
       lineHeight = 5,
       width = options.width,
       paneLeft = 80,
       paneRight = width - paneLeft,
       sectionHeight = 35,
-      height = ( sectionHeight * this.data.length ),
+      height = (sectionHeight * this.data.length),
       sectionWidth = paneRight / this.data[0].length,
       circleRadius = 14,
       x,
@@ -51,12 +52,12 @@ D3punchcard.prototype.draw = function( options ){
       rScale;
 
   // X-Axis.
-  x = d3.scale.linear().domain([0, this.data[0].length-1]).
-    range([ paneLeft + (sectionWidth / 2) , paneRight + (sectionWidth / 2)]);
+  x = d3.scale.linear().domain([0, this.data[0].length - 1])
+    .range([ paneLeft + (sectionWidth / 2), paneRight + (sectionWidth / 2)]);
 
   // Y-Axis.
-  y = d3.scale.linear().domain([0, this.data.length-1]).
-    range([0, height - sectionHeight]);
+  y = d3.scale.linear().domain([0, this.data.length - 1])
+    .range([0, height - sectionHeight]);
 
   rScale = d3.scale.linear()
     .domain([0, this.upperLimit, this.max])
@@ -65,27 +66,27 @@ D3punchcard.prototype.draw = function( options ){
   // these functions hide and show the circles and text values
   function handleRowMouseover(){
     var g = d3.select(this).node().parentNode;
-    d3.select(g).selectAll('circle').style('display','none');
-    d3.select(g).selectAll('text.value').style('display','block');
+    d3.select(g).selectAll('circle').style('display', 'none');
+    d3.select(g).selectAll('text.value').style('display', 'block');
   }
 
   function handleRowMouseout(){
     var g = d3.select(this).node().parentNode;
-    d3.select(g).selectAll('circle').style('display','block');
-    d3.select(g).selectAll('text.value').style('display','none');
+    d3.select(g).selectAll('circle').style('display', 'block');
+    d3.select(g).selectAll('text.value').style('display', 'none');
   }
 
   // The main SVG element.
   punchcard = d3.select(this.element)
     .html('')
     .append('svg')
-      .attr('width', width )
-      .attr('height', height + (margin*3))
+      .attr('width', width)
+      .attr('height', height + (margin * 3))
       .append('g');
 
   // create the x axis holder
   xAxis = punchcard.selectAll('.row')
-    .data( [this.data[0].slice(1)] )
+    .data([this.data[0].slice(1)])
     .enter()
     .append('g')
     .attr('class', 'xaxis');
@@ -95,26 +96,26 @@ D3punchcard.prototype.draw = function( options ){
     append('line').
     attr('x1', 0).
     attr('x2', width).
-    attr('y1',  (margin * 3)).
-    attr('y2',  (margin * 3)).
+    attr('y1', (margin * 3)).
+    attr('y2', (margin * 3)).
     style('stroke-width', 1).
     style('stroke', '#efefef');
 
   // create x-axis ticks
   xAxis.
     selectAll('line.tick').
-    data(function(d, i ) {
+    data(function(d, i) {
       return d;
     }).
     enter().
     append('line').
     attr('class', 'tick').
-    attr('x1', function(d,i) { return paneLeft  + x(i); }).
-    attr('x2', function(d,i) { return paneLeft  + x(i); }).
-    attr('y1', function (d, i) {
+    attr('x1', function(d, i) { return paneLeft + x(i); }).
+    attr('x2', function(d, i) { return paneLeft + x(i); }).
+    attr('y1', function(d, i) {
       return margin * 2;
     }).
-    attr('y2', function (d, i) {
+    attr('y2', function(d, i) {
       return (margin * 3);
     }).
     style('stroke-width', 1).
@@ -123,14 +124,14 @@ D3punchcard.prototype.draw = function( options ){
   // create x-axis tick text.
   xAxis.
     selectAll('.rule').
-    data(function(d, i ) {
+    data(function(d, i) {
       return d;
     }).
     enter().
     append('text').
     attr('class', 'rule').
     attr('x', function(d, i) {
-      return paneLeft  + x(i);
+      return paneLeft + x(i);
     }).
     attr('y', margin + lineHeight).
     attr('text-anchor', 'middle').
@@ -145,7 +146,7 @@ D3punchcard.prototype.draw = function( options ){
     .append('g')
     .attr('class', 'row')
     .attr('transform', function(d, i) {
-      var ty = height - y(i) - (sectionHeight/2) + (margin*3);
+      var ty = height - y(i) - (sectionHeight / 2) + (margin * 3);
       return 'translate(0, ' + ty + ')';
     });
 
@@ -157,8 +158,8 @@ D3punchcard.prototype.draw = function( options ){
     append('line').
     attr('x1', 0).
     attr('x2', width).
-    attr('y1', (sectionHeight/2)).
-    attr('y2', (sectionHeight/2)).
+    attr('y1', (sectionHeight / 2)).
+    attr('y2', (sectionHeight / 2)).
     style('stroke-width', 1).
     style('stroke', '#efefef');
 
@@ -188,7 +189,7 @@ D3punchcard.prototype.draw = function( options ){
   // draw circles for each row
   punchcardRow.
     selectAll('circle').
-    data( function(d, i ) {
+    data( function(d, i) {
       return d.slice(1);
     } ).
     enter().
@@ -198,28 +199,28 @@ D3punchcard.prototype.draw = function( options ){
       return rScale( parseFloat( d.value ) );
     }).
     attr('transform', function(d, i) {
-      var tx = paneLeft  + x(i);
+      var tx = paneLeft + x(i);
       return 'translate(' + tx + ', 0)';
     });
 
   // draw text values for each row
   punchcardRow.
     selectAll('text.value').
-    data( function(d, i ) {
+    data(function(d, i) {
       return d.slice(1);
-    } ).
+    }).
     enter().
     append('text').
     attr('class', 'value').
-    style('display','none').
-    text(function (d, i) {
+    style('display', 'none').
+    text(function(d, i) {
       return d.value;
     }).
     attr('text-anchor', 'middle').
-    attr('x', function (d, i) {
-      return paneLeft  + x(i);
+    attr('x', function(d, i) {
+      return paneLeft + x(i);
     }).
-    attr('y', function (d, i) {
+    attr('y', function(d, i) {
       return lineHeight;
     });
 
@@ -228,8 +229,7 @@ D3punchcard.prototype.draw = function( options ){
 
 // to be called when closing a view
 // in which this object has been created
-D3punchcard.prototype.destroy = function () {
-
+D3punchcard.prototype.destroy = function() {
   // remove event listeners
   d3.select(this.element)
     .selectAll('text.textheader')

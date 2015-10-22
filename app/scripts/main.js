@@ -1,14 +1,19 @@
+import _ from 'lodash';
+import dc from 'dc';
+import d3 from 'd3';
+import crossfilter from 'crossfilter';
+
 console.log('\'Allo \'Allo!');
 
 (function() {
-  'use strict';
+  //'use strict';
 
   function makePlots(data) {
     //var all = data.groupAll();
 
-    var hourDimension = data.dimension(function(d) {
-      return d.hour;
-    });
+    // var hourDimension = data.dimension(function(d) {
+    //   return d.hour;
+    // });
 
     var monthDimension = data.dimension(function(d) {
       return d.year * 12 + d.month;
@@ -48,7 +53,7 @@ console.log('\'Allo \'Allo!');
 
     var dayGroup = dayDimension.group();
 
-    var timelineGraph  = dc.barChart('#timeline');
+    var timelineGraph = dc.barChart('#timeline');
     var dayOfWeekGraph = dc.rowChart('#dayofweek');
     var plotWidth = document.getElementById('plot-container').offsetWidth;
 
@@ -75,25 +80,25 @@ console.log('\'Allo \'Allo!');
       .elasticX(true)
       .ordinalColors(['#0072bd', '#d95319', '#edb120', '#7e2f8e', '#77ac30', '#4dbeee']);
 
-/*    hourChart
-      .width(document.getElementById('timeline').offsetWidth)
-      .height(200)
-      .transitionDuration(1000)
-      .dimension(monthDimension)
-      .group(monthGroup)
-      .x(d3.scale.linear().domain([0, 10]))
-      .y(d3.scale.linear().domain([0, 10]))
-      .elasticX(true)
-      .elasticY(true)
-      .xAxisLabel('day')
-      .yAxisLabel('count');
-*/
+    /*    hourChart
+          .width(document.getElementById('timeline').offsetWidth)
+          .height(200)
+          .transitionDuration(1000)
+          .dimension(monthDimension)
+          .group(monthGroup)
+          .x(d3.scale.linear().domain([0, 10]))
+          .y(d3.scale.linear().domain([0, 10]))
+          .elasticX(true)
+          .elasticY(true)
+          .xAxisLabel('day')
+          .yAxisLabel('count');
+    */
     dc.renderAll();
   }
 
-  function zeros(n) {
-    return Array.apply(null, new Array(n)).map(Number.prototype.valueOf, 0);
-  }
+  // function zeros(n) {
+  //   return Array.apply(null, new Array(n)).map(Number.prototype.valueOf, 0);
+  // }
 
   function extractTimestamps(data, key, timeFormat) {
     var emailPred = function(item) {
@@ -108,10 +113,10 @@ console.log('\'Allo \'Allo!');
     var splitDate = function(date) {
       return {
         date: date,
-        day:  date.getDay(),
+        day: date.getDay(),
         hour: date.getHours(),
         year: date.getFullYear(),
-        month: date.getMonth(),
+        month: date.getMonth()
       };
     };
 

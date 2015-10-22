@@ -1,0 +1,6 @@
+{
+  "ecmaFeatures": { "modules": true },
+  "rules": {
+    "no-underscore-dangle": 0,
+  }
+}

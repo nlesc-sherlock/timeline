@@ -1,16 +1,8 @@
+import _ from 'lodash';
+import d3 from 'd3';
+import D3punchcard from 'd3.punchcard';
 
 (function() {
-  d3.json('jur.json',
-
-  // callback function
-  function(error, data) {
-    if (error) {
-      console.log(error);
-    }
-
-    showGraph(filterData(data, 'email.sentOn', '%Y-%m-%dT%H:%M:%S.%LZ'));
-  });
-
   function filterData(data, key, timeFormat) {
     var emailPred = function(item) {
       return _.includes(item._source.exists, key);
@@ -23,8 +15,8 @@
 
     var splitDate = function(date) {
       return {
-        day:  date.getDay(),
-        hour: date.getHours(),
+        day: date.getDay(),
+        hour: date.getHours()
       };
     };
 
@@ -35,15 +27,15 @@
 
     // count number of items in each bin
     var tsCounts = _.mapValues(
-      _.groupBy(timestamps,   _.partial(_.get, _, 'day')),
+      _.groupBy(timestamps, _.partial(_.get, _, 'day')),
       _.partial(_.countBy, _, _.partial(_.get, _, 'hour')));
 
     // map the nested objects to a list of lists containing {key, value}-pairs
     var dict2List = function(dict) {
       return _.map(d3.range(0, 24), function(i) {
         return {
-          key:   _.parseInt(i) + 'h',
-          value: _.get(dict, i.toString(), 0),
+          key: _.parseInt(i) + 'h',
+          value: _.get(dict, i.toString(), 0)
         };
       });
     };
@@ -57,12 +49,10 @@
 
 function showGraph ( data ) {
 
-  var flatAscending,
-  upperLimit,
-  examplePunchcard;
+  var flatAscending, upperLimit;
 
   flatAscending = data.map( function(array) {
-    var value;
+    //var value;
     return array.slice(1).map( function ( sliced ) {
       return parseFloat( sliced.value );
     }).filter(function ( element ) {
@@ -79,12 +69,23 @@ function showGraph ( data ) {
   // to not show upper outliers
   upperLimit = d3.quantile( flatAscending, 0.95 );
 
-  examplePunchcard = new D3punchcard({
+  new D3punchcard({
     data: data,
     element: '#punchcard',
     upperLimit: upperLimit
   })
   .draw({ width: document.getElementById('punchcard').offsetWidth });
 }
+
+d3.json('jur.json',
+
+// callback function
+function(error, data) {
+  if (error) {
+    console.log(error);
+  }
+
+  showGraph(filterData(data, 'email.sentOn', '%Y-%m-%dT%H:%M:%S.%LZ'));
+});
 
 })();
