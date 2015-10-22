@@ -3,7 +3,7 @@
 ;(function (global) { function moduleDefinition( d3 ) {
 
 function D3punchcard( options ) {
-  
+
   // Reverse the data as we draw
   // from the bottom up.
   this.data = options.data.reverse();
@@ -149,7 +149,7 @@ D3punchcard.prototype.draw = function( options ){
       return 'translate(0, ' + ty + ')';
     });
 
-  // create row divinding lines 
+  // create row divinding lines
   punchcardRow.
     selectAll('line').
     data([0]).
@@ -166,7 +166,7 @@ D3punchcard.prototype.draw = function( options ){
   punchcardRow.
     selectAll('.textheader').
     data( function(d, i ) {
-      
+
       // we only return the first element of each array
       // which contains the header text
       return [d[0]];
@@ -229,7 +229,7 @@ D3punchcard.prototype.draw = function( options ){
 // to be called when closing a view
 // in which this object has been created
 D3punchcard.prototype.destroy = function () {
-  
+
   // remove event listeners
   d3.select(this.element)
     .selectAll('text.textheader')

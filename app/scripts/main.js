@@ -1,9 +1,10 @@
 console.log('\'Allo \'Allo!');
+
 (function() {
-  readCrossfilterData(makePlots);
+  'use strict';
 
   function makePlots(data) {
-    var all = data.groupAll();
+    //var all = data.groupAll();
 
     var hourDimension = data.dimension(function(d) {
       return d.hour;
@@ -18,37 +19,37 @@ console.log('\'Allo \'Allo!');
     var dayDimension = data.dimension(function(d) {
       var dayInWeek = [
         'Sunday', 'Monday', 'Tuesday', 'Wednesday',
-        'Thursday', 'Friday', 'Saturday',
+        'Thursday', 'Friday', 'Saturday'
       ];
       return d.day + '.' + dayInWeek[d.day];
     });
 
-    var hourGroup =  hourDimension.group().reduce(
-      /* callback to add data to current filter results */
-      function(p, v) {
-        ++p.count;
-        ++p.perDay[v.day];
-        return p;
-      },
-      /* callback to remove data from current filter results */
-      function(p, v) {
-        --p.count;
-        --p.perDay[v.day];
-        return p;
-      },
-      /* callback to initialize p */
-      function() {
-        return {
-          count:  0,
-          perDay: zeros(7),
-        };
-      }
-    );
+    // var hourGroup =  hourDimension.group().reduce(
+    //   /* callback to add data to current filter results */
+    //   function(p, v) {
+    //     ++p.count;
+    //     ++p.perDay[v.day];
+    //     return p;
+    //   },
+    //   /* callback to remove data from current filter results */
+    //   function(p, v) {
+    //     --p.count;
+    //     --p.perDay[v.day];
+    //     return p;
+    //   },
+    //   /* callback to initialize p */
+    //   function() {
+    //     return {
+    //       count:  0,
+    //       perDay: zeros(7),
+    //     };
+    //   }
+    // );
 
     var dayGroup = dayDimension.group();
 
     var timelineGraph  = dc.barChart('#timeline');
-    var dayOfWeekGraph = dc.rowChart('#dayofweek')
+    var dayOfWeekGraph = dc.rowChart('#dayofweek');
     var plotWidth = document.getElementById('plot-container').offsetWidth;
 
     timelineGraph
@@ -91,7 +92,7 @@ console.log('\'Allo \'Allo!');
   }
 
   function zeros(n) {
-    return Array.apply(null, Array(n)).map(Number.prototype.valueOf, 0);
+    return Array.apply(null, new Array(n)).map(Number.prototype.valueOf, 0);
   }
 
   function extractTimestamps(data, key, timeFormat) {
@@ -132,4 +133,6 @@ console.log('\'Allo \'Allo!');
         'email.sentOn', '%Y-%m-%dT%H:%M:%S.%LZ')));
     });
   }
+
+  readCrossfilterData(makePlots);
 })();
