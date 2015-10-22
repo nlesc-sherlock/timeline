@@ -14,9 +14,9 @@ console.log('\'Allo \'Allo!');
   function makePlots(data) {
     //var all = data.groupAll();
 
-    // var hourDimension = data.dimension(function(d) {
-    //   return d.hour;
-    // });
+    var hourDimension = data.dimension(function(d) {
+      return d.hour;
+    });
 
     var monthDimension = data.dimension(function(d) {
       return d.year * 12 + d.month;
@@ -32,32 +32,13 @@ console.log('\'Allo \'Allo!');
       return d.day + '.' + dayInWeek[d.day];
     });
 
-    // var hourGroup =  hourDimension.group().reduce(
-    //   /* callback to add data to current filter results */
-    //   function(p, v) {
-    //     ++p.count;
-    //     ++p.perDay[v.day];
-    //     return p;
-    //   },
-    //   /* callback to remove data from current filter results */
-    //   function(p, v) {
-    //     --p.count;
-    //     --p.perDay[v.day];
-    //     return p;
-    //   },
-    //   /* callback to initialize p */
-    //   function() {
-    //     return {
-    //       count:  0,
-    //       perDay: zeros(7),
-    //     };
-    //   }
-    // );
-
+    var hourGroup = hourDimension.group();
     var dayGroup = dayDimension.group();
 
     var timelineGraph = dc.barChart('#timeline');
     var dayOfWeekGraph = dc.rowChart('#dayofweek');
+    var hourGraph = dc.barChart('#hourchart');
+
     var plotWidth = document.getElementById('plot-container').offsetWidth;
 
     timelineGraph
@@ -74,8 +55,18 @@ console.log('\'Allo \'Allo!');
       .xAxisLabel('time')
       .yAxisLabel('count');
 
+    hourGraph
+      .width(plotWidth * 0.45)
+      .height(200)
+      .transitionDuration(1000)
+      .dimension(hourDimension)
+      .group(hourGroup)
+      .x(d3.scale.linear().domain([0, 24]))
+      .elasticX(true)
+      .elasticY(true);
+
     dayOfWeekGraph
-      .width(plotWidth / 2)
+      .width(plotWidth * 0.45)
       .height(200)
       .transitionDuration(1000)
       .dimension(dayDimension)
