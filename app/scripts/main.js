@@ -72,7 +72,7 @@ console.log('\'Allo \'Allo!');
       .dimension(dayDimension)
       .group(dayGroup)
       .elasticX(true)
-      .ordinalColors(['#3182bd', '#6baed6', '#9ecae1', '#c6dbef', '#dadaeb']);
+      .ordinalColors(['#0072bd', '#d95319', '#edb120', '#7e2f8e', '#77ac30', '#4dbeee']);
 
 /*    hourChart
       .width(document.getElementById('timeline').offsetWidth)
