@@ -1,3 +1,8 @@
+# Run with docker
+The timeline visualisation web app is available as docker container.
+```sh
+docker run -d -p 9000 nlesc/timeline
+```
 
 # Installing from github
 
@@ -62,11 +67,3 @@ gulp build
 ```sh
 gulp serve
 ``` 
-
-# Run with docker
-The timeline visualisation web app is available as docker container.
-```sh
-docker run -d -p 9000 nlesc/timeline
-```
-
-
