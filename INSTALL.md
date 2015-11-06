@@ -6,64 +6,40 @@ docker run -d -p 9000 nlesc/timeline
 
 # Installing from github
 
-## remove all files pertaining to old nodejs install
-```
-sudo apt-get purge nodejs
-```
+1. install nodejs:
+  
+  * follow [those instructins](https://nodejs.org/en/download/package-manager/) (choose appropriate for your operating system)
 
-## change to temporary dir for the moment
-```sh
-cd ~/tmp
-git clone https://github.com/nlesc-sherlock/timeline.git
-```
+2. get timelines source code
+  ```sh
+  git clone https://github.com/nlesc-sherlock/timeline.git
+  ```
+3. install server side javascript dependencies with npm
+  ```sh
+  npm install
+  ```
 
-## change into timeline dir
-```sh
-cd timeline
-```
+4. install bower globally (may require sudo, depending on your setup)
+  ```sh
+  npm install --global bower
+  ```
 
-## add nodejs PPA
-```sh
-curl --silent --location https://deb.nodesource.com/setup_4.x | sudo bash -
-```
+5. install client side javascript dependencies with bower
+  ```sh
+  bower install
+  ```
 
-## update the list of repositories:
-```sh
-sudo apt-get update
+6. install gulp globally (may require sudo, depending on your setup)
+  ```sh
+  npm install --global gulp
+  ```
 
-```
+7. build the project using gulp
+  ```sh
+  gulp build
+  ```
 
-## now install from the new repository
-```sh
-sudo apt-get install --yes nodejs
-```
-
-## install node modules required by `timeline`
-```sh
-npm install
-```
-
-## install bower
-```sh
-sudo npm install --global bower
-```
-
-## let bower look in bower.json and retrieve and install any dependencies
-```sh
-bower install
-```
-
-## install gulp globally
-```sh
-sudo npm install --global gulp
-```
-
-## now you cna build the project with: `gulp`
-```sh
-gulp build
-```
-
-## you can let gulp serve the webapp on localhost with 
-```sh
-gulp serve
-``` 
+8. run http server with the application
+  ```sh
+  gulp serve
+  ``` 
