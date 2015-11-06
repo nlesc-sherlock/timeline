@@ -13,7 +13,7 @@
 
     var retrieveTimestamp = function(item) {
       return d3.time.format(timeFormat)
-                    .parse(item._source[key]);
+        .parse(item._source[key]);
     };
 
     var splitDate = function(date) {
@@ -46,49 +46,54 @@
     return _.map(_.pairs(tsCounts),
       function(kvpair) {
         var dayInWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-        return [{key: 'Day', value: dayInWeek[kvpair[0]]}].concat(dict2List(kvpair[1]));
+        return [{
+          key: 'Day',
+          value: dayInWeek[kvpair[0]]
+        }].concat(dict2List(kvpair[1]));
       });
   }
 
-function showGraph ( data ) {
+  function showGraph(data) {
 
-  var flatAscending, upperLimit;
+    var flatAscending, upperLimit;
 
-  flatAscending = data.map( function(array) {
-    //var value;
-    return array.slice(1).map( function ( sliced ) {
-      return parseFloat( sliced.value );
-    }).filter(function ( element ) {
-      return element > 0;
+    flatAscending = data.map(function(array) {
+      //var value;
+      return array.slice(1).map(function(sliced) {
+        return parseFloat(sliced.value);
+      }).filter(function(element) {
+        return element > 0;
+      });
+
+    }).reduce(function(a, b) {
+      return a.concat(b);
+    }).sort(function(a, b) {
+      return a - b;
     });
 
-  }).reduce(function(a, b) {
-    return a.concat(b);
-  }).sort(function(a, b) {
-    return a - b;
-  } );
+    // we find the upper limit quantile in order
+    // to not show upper outliers
+    upperLimit = d3.quantile(flatAscending, 0.95);
 
-  // we find the upper limit quantile in order
-  // to not show upper outliers
-  upperLimit = d3.quantile( flatAscending, 0.95 );
-
-  new D3punchcard({
-    data: data,
-    element: '#punchcard',
-    upperLimit: upperLimit
-  })
-  .draw({ width: document.getElementById('punchcard').offsetWidth });
-}
-
-d3.json('jur.json',
-
-// callback function
-function(error, data) {
-  if (error) {
-    console.log(error);
+    new D3punchcard({
+        data: data,
+        element: '#punchcard',
+        upperLimit: upperLimit
+      })
+      .draw({
+        width: document.getElementById('punchcard').offsetWidth
+      });
   }
 
-  showGraph(filterData(data, 'email.sentOn', '%Y-%m-%dT%H:%M:%S.%LZ'));
-});
+  d3.json('jur.json',
+
+    // callback function
+    function(error, data) {
+      if (error) {
+        console.log(error);
+      }
+
+      showGraph(filterData(data, 'email.sentOn', '%Y-%m-%dT%H:%M:%S.%LZ'));
+    });
 
 })();

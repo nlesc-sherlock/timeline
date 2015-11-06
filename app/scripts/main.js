@@ -63,7 +63,12 @@ console.log('\'Allo \'Allo!');
     timelineGraph
       .width(plotWidth)
       .height(200)
-      .margins({top: 10, right: 50, bottom: 30, left: 40})
+      .margins({
+        top: 10,
+        right: 50,
+        bottom: 30,
+        left: 40
+      })
       .transitionDuration(1000)
       .dimension(monthDimension)
       .group(monthGroup)
@@ -110,7 +115,7 @@ console.log('\'Allo \'Allo!');
 
     var retrieveTimestamp = function(item) {
       return d3.time.format(timeFormat)
-                    .parse(item._source[key]);
+        .parse(item._source[key]);
     };
 
     var splitDate = function(date) {
