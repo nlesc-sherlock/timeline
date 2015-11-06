@@ -42,7 +42,7 @@ D3punchcard.prototype.draw = function( options ){
   var margin = 10,
       lineHeight = 5,
       width = options.width,
-      paneLeft = 80,
+      paneLeft = 45,
       paneRight = width - paneLeft,
       sectionHeight = 35,
       height = (sectionHeight * this.data.length),
@@ -198,7 +198,8 @@ D3punchcard.prototype.draw = function( options ){
     } ).
     enter().
     append('circle').
-    style('fill', '#888').
+    style('fill', '#4682B4').
+    style('fill-opacity', 0.8).
     attr('r', function(d, i) {
       return rScale( parseFloat( d.value ) );
     }).
